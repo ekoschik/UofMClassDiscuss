@@ -1,45 +1,25 @@
-
-function getSubjectList() {
-	subjects = new Array();
-	subjects.push('Apple');
-	subjects.push('Blueberry');
-	subjects.push('Strawberry');
-	subjects.push('Pare');
-	subjects.push('Poop');
-	return subjects;
-
-/*
-	$.get("/subj_list/", function(data) {
-		for (var key in data) {
-			subjects.push(data[key].code);
-		}
-		alert(subjects.length);
-		return subjects; 
-	});
-*/
-}
-
 $(document).ready(function(){
 	
-	var countries = [
-	   { value: 'Andorra', data: 'AD' },
-	   { value: 'Zimbabwe', data: 'ZZ' }
-	];
+	departmentlist = new Array();
+	//departmentlist.push({label:'Electrical Engineering and Computer Science', value:'EECS'});
 
-	$('#subj_selector').autocomplete({
-	    lookup: countries,
-	    onSelect: function (suggestion) {
-	        alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
-	    }
-	});
-
-/*
-	$("#subj_selector").autocomplete({
-		serviceUrl : getSubjectList(),
-		onSelect : function(suggestion) {
-			alert("Your Selection was " + suggestion.value + "{" + suggestion.data + "}");
+	$.ajax({
+		url: '/subj_list/',
+		type: 'GET',
+		success: function(results) {
+			console.log(results.length);
+			for(var key in results) {
+				departmentlist.push({label: results[key].subject, value: results[key].code});
+	
+			}
+			//console.log(departmentlist);
+			$('#departmentname').autocomplete({source:departmentlist});
 		}
-	});
-*/
+	})
+
+	
+
+
+	
 	
 });

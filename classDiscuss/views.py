@@ -11,7 +11,7 @@ def home(request):
 def getSubjectList(request):
 	if request.method == 'GET':
 		r=requests.get('http://umich.io/academics/v0/subjects')
-		return HttpResponse(r.text,mimetype='text/javascript')
+		return HttpResponse(r.text,mimetype='application/json')
 	else:
 		return HttpResponse('Must Use GET.')
 
