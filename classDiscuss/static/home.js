@@ -10,10 +10,12 @@ $(document).ready(function(){
 			console.log(results.length);
 			for(var key in results) {
 				departmentlist.push({label: results[key].subject, value: results[key].code});
-	
+				departmentlist.push({label: results[key].code, value: results[key].code});	
 			}
-			//console.log(departmentlist);
 			$('#departmentname').autocomplete({source:departmentlist});
+			$('#departmentname').removeClass('unloaded');
+			$('#departmentname').addClass('loaded');
+				
 		}
 	})
 
