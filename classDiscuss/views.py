@@ -5,29 +5,31 @@ import json
 
 
 def home(request):
-	return render_to_response('home.html')
+    return render_to_response('home.html')
 
 
-def getSubjectList(request):
-	if request.method == 'GET':
-		r=requests.get('http://umich.io/academics/v0/subjects')
-		return HttpResponse(r.text,mimetype='application/json')
-	else:
-		return HttpResponse('Must Use GET.')
+def getDepartmentList(request):
+    if request.method == 'GET':
+        r = requests.get('http://umich.io/academics/v0/subjects')
+        return HttpResponse(r.text, mimetype = 'application/json')
+    else:
+        return HttpResponse('Must Use GET.')
 
-def getClassList(request, subject):
-	if request.method == 'GET':
-		r=requests.get('http://umich.io/academics/v0/'+subject+'/courses')
-		return HttpResponse(r.text,mimetype='application/json')
-	else:
-		return HttpResponse('Must Use GET.')
 
-def getClassInfo(request, classnum):
-	if request.method == 'GET':
-		r=requests.get('http://umich.io/academics/v0/'+classnum+'/info')
-		return HttpResponse(r.text,mimetype='application/json')
-	else:
-		return HttpResponse('Must Use GET.')
+def getClassList(request, department):
+    if request.method == 'GET':
+        r = requests.get('http://umich.io/academics/v0/' + department + '/courses')
+        return HttpResponse(r.text, mimetype='application/json')
+    else:
+        return HttpResponse('Must Use GET.')
+
+
+def getClassInfo(request, department, classnum):
+    if request.method == 'GET':
+        r = requests.get('http://umich.io/academics/v0/' + department + '/' + classnum + '/sections')
+        return HttpResponse(r.text, mimetype = 'application/json')
+    else:
+        return HttpResponse('Must Use GET.')
 
 
 

@@ -4,7 +4,7 @@ urlpatterns = patterns('',
     url(r'^$', 'classDiscuss.views.home', name='home'),
 
 	#direct calls through the framwork to UMICH.IO
-    url(r'^subj_list/', 'classDiscuss.views.getSubjectList'),
-	url(r'^class_list/(?P<subject>\w{0,50})/$', 'classDiscuss.views.getClassList'),
-	url(r'^class_info/(?P<classnum>\w{0,50})/$', 'classDiscuss.views.getClassInfo'),  
+    url(r'^department_list/', 'classDiscuss.views.getDepartmentList'),
+	url(r'^class_list/(?P<department>\w{0,50})/$', 'classDiscuss.views.getClassList'),
+	url(r'^class_info/(?P<department>\w{0,50})/(?P<classnum>\w{0,50})/$', 'classDiscuss.views.getClassInfo'),  
 )
