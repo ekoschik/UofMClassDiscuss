@@ -9,15 +9,21 @@
         <script src= "{{ STATIC_URL }}/static/home.js" type="text/javascript"></script>
         <link rel='stylesheet' type='text/css' href="{{ STATIC_URL }}/static/home.css" />
     
-    	<title>Class Discuss at UofM</title>
+    	<title>You Logged In!!!</title>
     </head>
-
     <body>
-    	
-        <a href='/profile/'>Log onto FACEBOOK!</a>
-
-        
-
-
+		<div id="classpicker">
+            Get started by adding a class you have taken:
+            <input type="text" id="departmentname" placeholder="Department Name" class = "unloaded"/>
+            <input type="text" id="classnumber" placeholder="Class Number" class = "unloaded"/>
+            <div id='classname'></div>
+                
+            <br/>
+            <div id='classselector'>
+                Which instructor did you have?
+                <div id='instructorlist'></div>
+            </div> 
+        </div>
     </body>
 </html>
+ 

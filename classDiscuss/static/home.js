@@ -6,7 +6,6 @@ $.ajax({
 	url: '/department_list/',//Load the Department List
 	type: 'GET',
 	success: function(results) {
-
 		//Add subject list to the department list's autocomplete
 		departmentlist = new Array();
 		for(var key in results) {
@@ -19,7 +18,6 @@ $.ajax({
 		$('#departmentname').removeClass('unloaded');
 		$('#departmentname').addClass('loaded');
 
-		
 		//Sets behavior for when when selection is made
 		$('#departmentname').autocomplete({select:function(event, ui) {
 			
@@ -39,9 +37,7 @@ $.ajax({
 					classNumberList = new Array();
 					for(var key in class_list_raw) {
 						classNumberList.push({label: class_list_raw[key].number, value: class_list_raw[key].number});
-						
-						//to add descriptions as ways of identifying a class
-						//classNumberList.push({label: class_list_raw[key].title, value: class_list_raw[key].number});
+						classNumberList.push({label: class_list_raw[key].title, value: class_list_raw[key].number});
 					}
 					$('#classnumber').autocomplete({source:classNumberList});
 
@@ -78,7 +74,7 @@ $.ajax({
 
 									//Look for a lecture, which contains the instructor name,
 									//for each instructor create a button that selects the class
-									if(results[key].type == 'LEC') {
+									if(results[key].type == 'LEC' || results[key].type == 'SEM') {
 										//todo: remove duplicates
 										$("#instructorlist").append(
 											"<button type='button' class='instructor_selection'>".concat(

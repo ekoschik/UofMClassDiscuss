@@ -40,9 +40,41 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'classDiscuss',
     # 'django.contrib.admin',
     # 'django.contrib.admindocs',
+    'social_auth',
+    'storages',
 )
+
+#Facebook Authentication via django-social-auth
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.facebook.FacebookBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+FACEBOOK_APP_ID     = '397547630334475'
+FACEBOOK_API_SECRET = '32c554ca2b0ec961192a1a74bf496f39'
+
+LOGIN_URL          = '/login-form/'
+LOGIN_REDIRECT_URL = '/logged-in/'
+LOGIN_ERROR_URL    = '/login-error/'
+
+
+#S3 File Storage
+DEFAULT_FILE_STORAGE='storages.backends.s3boto.S3BotoStorage'
+AWS_ACCESS_KEY='AKIAIGD4R4ZWJCYNATWQ'
+AWS_SECRET_ACCESS_KEY='fMvOrPj5j4rFPGSny4dQm2mH/qGLRPDME36gq2Kf'
+AWS_STORAGE_BUCKET_NAME='UofMClassDiscuss'
+
+
+
+
+
+
+
+
+
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),

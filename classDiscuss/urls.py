@@ -1,7 +1,10 @@
 from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('',
-    url(r'^$', 'classDiscuss.views.home', name='home'),
+	url(r'^$', 'classDiscuss.views.home', name='home'),
+	url(r'', include('social_auth.urls')),
+	url(r'^profile/', 'classDiscuss.views.profilepage'),
+	
 
 	#direct calls through the framwork to UMICH.IO
     url(r'^department_list/', 'classDiscuss.views.getDepartmentList'),
