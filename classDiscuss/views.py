@@ -12,14 +12,23 @@ from django.contrib.messages.api import get_messages
 
 from social_auth import __version__ as version
 from social_auth.utils import setting
+from fandjango.decorators import facebook_authorization_required
 
 
+
+
+@facebook_authorization_required
 def home(request):
     return render_to_response('home.html')
+    #return HttpResponse('Hi, %s!' % request.facebook.user.facebook_id)
 
-@login_required
-def profilepage(request):
-    return render_to_response('profpage.html')
+@facebook_authorization_required
+def addUserToClass(request):
+    request.facebook.user.facebook_id
+
+
+
+
 
 def getDepartmentList(request):
     if request.method == 'GET':

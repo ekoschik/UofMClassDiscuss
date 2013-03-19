@@ -43,7 +43,8 @@ INSTALLED_APPS = (
     'classDiscuss',
     # 'django.contrib.admin',
     # 'django.contrib.admindocs',
-    'social_auth',
+    # 'social_auth',
+    'fandjango',
     'storages',
 )
 
@@ -55,6 +56,11 @@ AUTHENTICATION_BACKENDS = (
 
 FACEBOOK_APP_ID     = '397547630334475'
 FACEBOOK_API_SECRET = '32c554ca2b0ec961192a1a74bf496f39'
+
+FACEBOOK_APPLICATION_ID = '397547630334475'
+FACEBOOK_APPLICATION_SECRET_KEY = '32c554ca2b0ec961192a1a74bf496f39'
+FACEBOOK_APPLICATION_NAMESPACE = 'umclassdiscuss'
+
 
 LOGIN_URL          = '/login-form/'
 LOGIN_REDIRECT_URL = '/logged-in/'
@@ -141,6 +147,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'fandjango.middleware.FacebookMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )

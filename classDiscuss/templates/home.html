@@ -14,8 +14,20 @@
 
     <body>
     	
-        <a href='/profile/'>Log onto FACEBOOK!</a>
+        {{request.facebook.user.first_name}}
 
+
+        <div id="classpicker">
+            Get started by adding a class you have taken:
+            <input type="text" id="departmentname" placeholder="Department Name" class = "unloaded"/>
+            <input type="text" id="classnumber" placeholder="Class Number" class = "unloaded"/>
+            <div id='classname'></div>
+            <br/>
+            <div id='classselector'>
+                Which instructor did you have?
+                <div id='instructorlist'></div>
+            </div> 
+        </div>
         
 
 
