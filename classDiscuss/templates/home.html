@@ -26,20 +26,37 @@
             <div id="leftContent">
                 <div id="classPicker" class="center">
                     <form>
-                        <div id="introText">Get started by adding a class you have taken:</div>
+                        <div id="introText">Search for a class:</div>
                         <div id="classInput" class="center">
                             <input id="departmentName" type="text" size="15" placeholder="Department Name" class = "unloaded"/>
                             <input id="classNumber" type="text" size="10" placeholder="Class Number" 
                                    class = "unloaded" onkeypress="hideBoxes()"/> <br/>
                             <div id="classBlurb" class="center" style="display: none;"></div>
-                            <button id="classInputButton" type="button" class="center" style="display: none;">Add to taken classes</button>
+                            <button id="classInputButton" type="button" class="center" style="display: none;">I took this class</button>
+                            <button id="classViewButton">View Class Feedback</button>
                         </div>
                     </form>
                 </div>
                 <div id="selectedClass">
-                    Selected Class: 
-                    <div id="selectedClassName"></div>
-                    <div id="selectedClassTitle"></div>
+                    <h2><div id="selectedClassName"></div></h2>
+                    <h3><div id="selectedClassTitle"></div></h3>
+                    <div id="selectedClassDiff">Difficulty: <form action="">
+                            <input type="radio" name="diff" value="1">1<input type="radio" name="diff" value="2">2
+                            <input type="radio" name="diff" value="3">3<input type="radio" name="diff" value="4">4
+                            <input type="radio" name="diff" value="5">5
+                        </form>
+                    </div>
+                    <div id="selectedClassYear">Year: 
+                        <select id="selectedClassYearSelector">
+                            <option value="2013">2013</option>
+                            <option value="2012">2012</option>
+                            <option value="2011">2011</option>
+                        </select> Semester: <select id="selectedClassSemSelector">
+                            <option value="fall">Fall</option>
+                            <option value="winter">Winter</option>
+                            <option value="s">S</option>
+                        </select>
+                    </div>
                     <div id="selectedClassComment">
                         <textarea id="selectedClassCommentArea" rows="4" cols="40">Please enter some comments about this class.
                         </textarea>
@@ -48,13 +65,14 @@
                 </div>
             </div>
             <div id="classList">
-                <div id="suggestions"></div>
+                <div id="suggestions">Your saved classes:</div>
                 <div id="classesTaken">
                     {% for comment in comment_list %}
                         <div class="course" onclick="showOnLeft('{{ comment.department }}',
                                                                 '{{ comment.classNum }}',
                                                                 '{{ comment.className }}',
-                                                                '{{ comment.comment_text }}')">
+                                                                '{{ comment.comment_text }}',
+                                                                this)">
                             <div class="courseInfo">
                                 <div class="className">
                                     {{ comment.department }} {{ comment.classNum }} <br/>
@@ -64,11 +82,11 @@
                                                                            this)">X</div> <br/>
                                 {{ comment.className }} <br/>
                                 <div class="comment">
-                                    {% ifequal comment.comment_text "" %}
+                                    <!-- {% ifnotequal comment.comment_text "" %}
                                         Leave a comment
                                     {% else %}
                                         Comment: ...
-                                    {% endifequal %}
+                                    {% endifequal %} -->
                                 </div>
                             </div>
                         </div>

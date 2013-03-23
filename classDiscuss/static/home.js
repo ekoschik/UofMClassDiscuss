@@ -59,6 +59,8 @@ $.ajax({
 					}});
 
 					var loadClassData = function(department, classnum) {
+						document.getElementById("classBlurb").innerText = "Lecture not found";
+						$("#classBlurb").show();
 						$.ajax({
 							url: '/class_info/'.concat(department).concat('/').concat(classnum),
 							type: 'GET',
@@ -84,6 +86,7 @@ $.ajax({
 
 										$("#classBlurb").show();
 										$("#classInputButton").show();
+										$("#classViewButton").show();
 										/*
 										$("#instructorList").append(
 											"<button type='button' class='instructor_selection'>".concat(
@@ -108,7 +111,7 @@ $.ajax({
 	}
 });//end of setting up class picker
 
-var SelectClass = function(department, classNum, className) {
+var SelectClass = function(department, classNum, className, box) {
 	console.log("Class Selected!");
 	/*
 	console.log(department);
@@ -143,16 +146,24 @@ var SelectClass = function(department, classNum, className) {
 }//end of Select Class
 
 function addDiv(department, classNum, classTitle){
-	var div =  "<div class=\"course\" onclick=\"showOnLeft(" + department + ", " 
-															 + classNum + ", " 
-															 + classTitle + ", '')\">" + 
+	var div =  "<div class=\"course\" onclick=\"showOnLeft('" + department + "', '" 
+															 + classNum + "', '" 
+															 + classTitle + "', '', this)\">" + 
 					"<div class=\"courseInfo\">"
 					  + " <div class=\"className\">"
-							 + department + " " + classNum + "<br/></div>" + classTitle + "</div></div>";
+							 + department + " " + classNum + "<br/>" + 
+					    "</div>" + 
+					    "<div class=\"dropButton\" onclick=\"removeDiv('" + department + "', '"
+					    												 + classNum + "', "
+					    												 + "this)\">X</div> <br/>"
+						+ classTitle 
+						+ "<div"
+						+ "</div></div></div>";
+
 	$("#classesTaken").append(div);
 }
 
-<div class="course" onclick="showOnLeft('{{ comment.department }}',
+/*<div class="course" onclick="showOnLeft('{{ comment.department }}',
                                                                 '{{ comment.classNum }}',
                                                                 '{{ comment.className }}',
                                                                 '{{ comment.comment_text }}')">
@@ -173,7 +184,7 @@ function addDiv(department, classNum, classTitle){
                                 </div>
                             </div>
                         </div>
-
+*/
 function removeDiv(department, classNum, box){
 	$(box).parent().parent().hide();
 	$.ajax({
@@ -197,7 +208,12 @@ function removeDiv(department, classNum, box){
 		});
 	}
 
-function showOnLeft(department, classNum, classTitle, classComments){
+var selectedBox;
+
+function showOnLeft(department, classNum, classTitle, classComments, box){
+	$(selectedBox).removeClass("selectedBox");
+	$(box).addClass("selectedBox");
+	selectedBox = box;
 	selectedDept = department;
 	selectedClass = classNum;
 	//var comment

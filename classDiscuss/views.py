@@ -100,7 +100,7 @@ def add_class(request):
     else:
         cc = ClassComment(fbid=fbid, department=depcode,classNum=classnum,className=classname)
         cc.save()
-
+        
     return HttpResponse("success")
 
 
