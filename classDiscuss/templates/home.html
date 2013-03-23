@@ -9,26 +9,66 @@
         <script src= "{{ STATIC_URL }}/static/home.js" type="text/javascript"></script>
         <link rel='stylesheet' type='text/css' href="{{ STATIC_URL }}/static/home.css" />
     
-    	<title>Class Discuss at UofM</title>
+        <title>Class Discuss at UofM</title>
     </head>
 
     <body>
-    	
-        Hello, {{ name }}
+        <header>
+            <div id="headerLogo">
+                <h1>Class Discuss</h1>
+            </div>
+            <div id="userName">
+                Hello, {{ name }}
+            </div>
+        </header>
 
-
-        <div id="classpicker">
-            Get started by adding a class you have taken:
-            <input type="text" id="departmentname" placeholder="Department Name" class = "unloaded"/>
-            <input type="text" id="classnumber" placeholder="Class Number" class = "unloaded"/>
-            <div id='classname'></div>
-            <br/>
-            <div id='classselector'>
-                Which instructor did you have?
-                <div id='instructorlist'></div>
-            </div> 
+        <div id="content" class="center">
+            <div id="leftContent">
+                <div id="classPicker" class="center">
+                    <form>
+                        <div id="introText">Get started by adding a class you have taken:</div>
+                        <div id="classInput" class="center">
+                            <input id="departmentName" type="text" size="15" placeholder="Department Name" class = "unloaded"/>
+                            <input id="classNumber" type="text" size="10" placeholder="Class Number" 
+                                   class = "unloaded" onkeypress="hideBoxes()"/> <br/>
+                            <div id="classBlurb" class="center" style="display: none;"></div>
+                            <button id="classInputButton" type="button" class="center" style="display: none;">Add to taken classes</button>
+                        </div>
+                    </form>
+                </div>
+                <div id="selectedClass">
+                    Selected Class: 
+                    <div id="selectedClassName"></div>
+                    <div id="selectedClassTitle"></div>
+                    <div id="selectedClassComment">
+                        <textarea id="selectedClassCommentArea" rows="4" cols="40">Please enter some comments about this class.
+                        </textarea>
+                    </div>
+                    <button id="selectedClassSubmit" type="button" class="center" onclick="updateComment()">Submit</button>
+                </div>
+            </div>
+            <div id="classList">
+                <div id="suggestions"></div>
+                <div id="classesTaken">
+                    {% for comment in comment_list %}
+                        <div class="course" onclick="showOnLeft('{{ comment.department }}',
+                                                                '{{ comment.classNum }}',
+                                                                '{{ comment.className }}',
+                                                                '{{ comment.comment_text }}')">
+                            <div class="courseInfo">
+                                {{ comment.department }} {{ comment.classNum }} <br/>
+                                {{ comment.className }} <br/>
+                                {% ifequal comment.comment_text "" %}
+                                    Leave a comment
+                                {% else %}
+                                    Comment: ...
+                                {% endifequal %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
-        
 
 
     </body>

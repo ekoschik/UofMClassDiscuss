@@ -13,16 +13,25 @@ from fandjango.decorators import facebook_authorization_required
 import requests
 import json
 from django.conf.urls.defaults import *
-from classDiscuss.models import Class, ClassComment
+from classDiscuss.models import ClassComment
 from jsonrpc import jsonrpc_method
 from django.template import loader, Context
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
+from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
+from facepy import GraphAPI
 
-#Main Page
 @facebook_authorization_required
 def home(request):
-    c=Context({ 'fbid':request.facebook.user.facebook_id,
-                'name':request.facebook.user.first_name
-    })
+    u_fbid = request.facebook.user.facebook_id
+    clist=ClassComment.objects.filter(fbid=u_fbid)
+
+    c=Context({ 'fbid':u_fbid,
+                'name':request.facebook.user.first_name,
+                'comment_list':clist })
+
+    graph=GraphAPI(request.facebook.user.oauth_token.token)
+    friends=graph.get('me/friends')
+
     t=loader.get_template('home.html')
     return HttpResponse(t.render(c))
 
@@ -43,91 +52,71 @@ def class_page(request, depcode, classnum):
     return HttpResponse(prompt)
 
 
- 
-#RPCs
-def createClassComment(user_fbid, depcode, classnum, classname, given_year, given_semester):
-    '''Creates a class and a class comment, erroring out if they exist already'''
 
-    try:
-        c = Class.objects.get(department=depcode, className=classnum)
-    except MultipleObjectsReturned:
-        return "ERROR Multiple classes found on lookup!"
-    except ObjectDoesNotExist:
-        c = Class(department=depcode, classNum=classnum, className=classname)
-        c.save()
-
-    try:
-        cc = ClassComment.objecs.get(fbid=user_fbid, classobj=c)
-    except MultipleObjectsReturned:
-        return "ERROR Multiple class comments returned!"
-    except ObjectDoesNotExist:
-        cc = ClassComment(fbid=user_fbid, classobj=c, year=given_year, semester=given_semester)
-        cc.save()
-
-    return "success"
-
-@jsonrpc_method('myapp.addclass', authenticated=True)
-def addUserToClass(request):
+@facebook_authorization_required
+@csrf_exempt
+def update_comment(request):
     if request.method != 'POST':
-        return 'Must Use POST'
+        return HttpResponse('Must Use POST')
 
     fbid = request.facebook.user.facebook_id
-    g_depcode = request.POST['depcode']
-    g_classnum = request.POST['classnum']
-    g_classname = request.POST['classname']
-    g_year = request.POST['year']
-    g_semester = request.POST['semester']
 
-    return createClassComment(fbid, g_depcode, g_classnum, g_classname, g_year, g_semester)
+    depcode = request.POST['depcode']
+    classnum = request.POST['classnum']
+    text = request.POST['text']
     
+    count = ClassComment.objects.filter(fbid=fbid, department=depcode,classNum=classnum).count()
+    if count > 1:
+        return HttpResponse("ERROR Multiple comments found on lookup!")
+    elif count == 1:
+        cc = ClassComment.objects.filter(fbid=fbid, department=depcode,classNum=classnum).update(comment_text=text)
+    else:
+        return HttpResponse("ERROR no comment found")
+
+    return HttpResponse('success')
 
 
+@facebook_authorization_required
+@csrf_exempt
+def add_class(request):
+    if request.method != 'POST':
+        return HttpResponse('Must Use POST')
+
+    fbid = request.facebook.user.facebook_id
+    depcode = request.POST['depcode']
+    classnum = request.POST['classnum']
+    classname = request.POST['classname']
+
+    count = ClassComment.objects.filter(fbid=fbid, department=depcode,classNum=classnum).count()
+    if count > 1:
+        return HttpResponse("ERROR Multiple comments found on lookup!")
+    elif count == 1:
+        return HttpResponse("duplicate")
+    else:
+        cc = ClassComment(fbid=fbid, department=depcode,classNum=classnum,className=classname)
+        cc.save()
+
+    return HttpResponse("success")
 
 
-def removeClassComment(user_fbid, depcode, classnum):
-    '''Finds Class Comment and deletes it, erroring out if not found'''
+@facebook_authorization_required
+@csrf_exempt
+def drop_class(request): #user_fbid, depcode, classnum
+    if request.method != 'POST':
+        return 'Must Use POST'
+    fbid = request.POST['fbid']
+    depcode = request.POST['depcode']
+    classnum = request.POST['classnum']
 
-    try:
-        c = Class.objects.get(department=depcode, classNum=classnum)
-    except MultipleObjectsReturned:
-        return "ERROR Multiple Classes Found on Lookup!"
-    except ObjectDoesNotExist:
-        return "Class Not Found"
-
-    try:
-        cc = ClassComment.objects.get(fbid=user_fbid, classobj=c)
-        cc.delete();
-    except MultipleObjectsReturned:
-        return "ERROR Multiple Class Comments Found on Lookup!"
-    except ObjectDoesNotExist:
-        return "Class Comment Not Found"
-
-    return "success"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    count = ClassComment.objects.filter(fbid=fbid, department=depcode,classNum=classnum).count()
+    if count > 1:
+        return HttpResponse("ERROR Multiple comments found on lookup!")
+    elif count == 1:
+        cc = ClassComment.objects.get(fbid=fbid, department=depcode,classNum=classnum)
+        cc.delete()
+        return HttpResponse("success")
+    else:
+        return HttpResponse("ERROR no comment found")
 
 
 #Forwarded calls to UMICH.IO

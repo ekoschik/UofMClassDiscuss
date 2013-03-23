@@ -5,28 +5,122 @@ html, body{
 }
 
 body {
-	background-color: #a6a6a6;
+	background: url("diag-aerial_small.jpg");
+	background-size: 100%;
+}
+
+header {
+	width: 100%;
+	height: 100px;
+
+	background: rgb(255,183,107); /* Old browsers */
+	background: -moz-linear-gradient(top,  rgba(255,183,107,1) 0%, rgba(255,124,0,1) 51%, rgba(255,127,4,1) 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,183,107,1)), color-stop(51%,rgba(255,124,0,1)), color-stop(100%,rgba(255,127,4,1))); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  rgba(255,183,107,1) 0%,rgba(255,124,0,1) 51%,rgba(255,127,4,1) 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  rgba(255,183,107,1) 0%,rgba(255,124,0,1) 51%,rgba(255,127,4,1) 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  rgba(255,183,107,1) 0%,rgba(255,124,0,1) 51%,rgba(255,127,4,1) 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  rgba(255,183,107,1) 0%,rgba(255,124,0,1) 51%,rgba(255,127,4,1) 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffb76b', endColorstr='#ff7f04',GradientType=0 ); /* IE6-9 */
+}
+
+h1 {
+	margin-top: 0px;
+	color: white;
+	font-size: 40px;
+}
+
+#headerLogo {
+	width: 240px;
+	height: 50px;
+	padding: 10px 20px;
+}
+
+#userName {
+	width: 150px;
+	float: right;
 }
 
 #content {
-	width: 400px;
-	color: white;
-	border-radius: 15px;
-	margin: 0 auto;
+	width: 960px;
+	margin: 20px auto;
+}
 
-	background-color: #2465ab;
+#classPicker {
+	width: 300px;
+	padding: 10px;
+	float: left;
+	border-radius: 15px;
+	background-color: rgba(255,255,255,0.6); /* 2465ab */
 	-moz-box-shadow: 0px 0px 5px #707375;
 	-webkit-box-shadow: 0px 0px 5px #707375;
 	box-shadow: 0px 0px 5px #707375;
 }
 
-#classPicker {
-	padding: 20px;
+#classInput {
+	width: 240px;
+}
+
+#classBlurb {
+	width: 240px;
+	height: 20px;
+	background: #FFFFFF;
+	border: 1px solid #999999;
+}
+
+#classInputButton {
+	text-align: center;
+	width: 140px;
+}
+
+#selectedClass {
+	margin-top: 20px;
+	padding: 10px;
+	border-radius: 15px;
+	background-color: #2465ab;
+	width: 300px;
+	float: left;
+	display: none;
+}
+
+#selectedClassCommentArea {
+	height: 60px;
+	width: 100%;
+}
+
+#leftContent {
+	float: left;
+	width: 320px;
+	height: 700px;
+}
+
+#classList {
+	border-radius: 15px;
+	margin-left: 20px;
+	padding: 10px;
+	width: 600px;
+	height: 700px;
+	float: left;
+	background-color: rgba(255,255,255,0.6);
+	-moz-box-shadow: 0px 0px 5px #707375;
+	-webkit-box-shadow: 0px 0px 5px #707375;
+	box-shadow: 0px 0px 5px #707375;
+}
+
+.course {
+	width: 30%;
+	margin: 10px;
+	height: 100px;
+	background-color: #2465ab;
+	border-radius: 15px;
 	float: left;
 }
 
-#classInput {
-	width: 356px;
+.courseInfo {
+	padding: 10px;
+}
+
+.savedComment {
+	display: none;
 }
 
 .center {

@@ -1,7 +1,4 @@
-function hideBoxes(){
-	$("#classBlurb").hide();
-	$("#classInputButton").hide();
-}
+
 //Class Picker
 //manipulates text inputs #departmentName and #classNumber
 //calls SelectClass
@@ -64,27 +61,21 @@ $.ajax({
 							type: 'GET',
 							success: function(results) {
 								$("#instructorList").empty();
-								//$("#className").empty();
+								$("#className").empty();
 
 								var flag = true;
 								for(var key in results) {
+
+									//Populate the title of the class (only once)
+									if(flag){
+										$("#className").append(results[key].title);
+										flag = false;
+									}
+
 									//Look for a lecture, which contains the instructor name,
 									//for each instructor create a button that selects the class
 									if(results[key].type == 'LEC' || results[key].type == 'SEM') {
 										//todo: remove duplicates
-										//Populate the title of the class (only once)
-										var department = results[key].code;
-										var classNum = results[key].number;
-										var classTitle = results[key].title;
-
-										document.getElementById("classBlurb").innerText = classTitle;
-										//$("#classBlurb").html(classBlurbString);
-										$("#classInputButton").unbind("click");
-										$("#classInputButton").click(function(){SelectClass(department, classNum, classTitle)});
-
-										$("#classBlurb").show();
-										$("#classInputButton").show();
-										/*
 										$("#instructorList").append(
 											"<button type='button' class='instructor_selection'>".concat(
 												results[key].instructor
@@ -95,8 +86,6 @@ $.ajax({
 											var instructor = $(this).html();
 											SelectClass(department, classnum, instructor)
 										})
-										*/
-										break;
 									}
 								}
 							}
@@ -108,85 +97,29 @@ $.ajax({
 	}
 });//end of setting up class picker
 
-var SelectClass = function(department, classNum, className) {
+var SelectClass = function(department, classnum, className, year, semester) {
 	console.log("Class Selected!");
-	/*
 	console.log(department);
 	console.log(classnum);
 	console.log(instructor);
-	*/
-	
-
-	$.ajax({
+	/*
+	$.ajax(
 		type:"POST",
 		url:"/addclass/",
 		data: {
 			"depcode":department,
-			"classnum":classNum,
-			"classname":className,
+			"classnum":classnum,
+			"className":,className,
+			"year":year,
+			"semester":,semester,
 		},
 		async:true,
-		success: function(data) {
-			//add to the right
-			if(data == "success")
-				addDiv(department, classNum, className);
-			else if(data == "duplicate")
-				alert("Class is a duplicate entry");
-			console.log(data);
+		success function(response) {
+			console.log(response);
 		},
-		error: function(data, status, xhr){
-			alert(data);
-			alert(status);
-			alert(xhr);
-		},
+		dataType:"json",
 	});
+	*/
 }//end of Select Class
 
-function addDiv(department, classNum, classTitle){
-	var div =  "<div class=\"course\"> <div class=\"courseInfo\">" + department + " " + classNum + "<br/>" + classTitle + "</div></div>";
-	$("#classesTaken").append(div);
-}
 
-function showOnLeft(department, classNum, classTitle, classComments){
-	selectedDept = department;
-	selectedClass = classNum;
-	//var comment
-	document.getElementById("selectedClassName").innerText = department + " " + classNum;
-	document.getElementById("selectedClassTitle").innerText = classTitle;
-	document.getElementById("selectedClassCommentArea").placeholder = "Please enter your thoughts on this class.";
-	$("#selectedClassCommentArea").val(classComments);
-	$("#selectedClass").show();
-}
-
-var selectedDept, selectedClass;
-
-function updateComment(){
-	var comment = $("#selectedClassCommentArea").val();
-	if(comment == "")
-		alert("Please enter a comment to be saved.");
-	else {
-		$.ajax({
-			type:"POST",
-			url:"/updatecomment/",
-			data: {
-				"depcode":selectedDept,
-				"classnum":selectedClass,
-				"text":comment,
-			},
-			async:true,
-			success: function(data) {
-				//add to the right
-				if(data == "success"){
-					alert("Comment saved");
-					$("selectedClass").hide();
-				}
-				console.log(data);
-			},
-			error: function(data, status, xhr){
-				alert(data);
-				alert(status);
-				alert(xhr);
-			},
-		});
-	}
-}
