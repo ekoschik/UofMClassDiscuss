@@ -1,7 +1,7 @@
 
 //Class Picker
 //manipulates text inputs #departmentname and #classnumber
-//calls SelectClass = function(department, classnum, instructor) 
+//calls SelectClass
 $.ajax({
 	url: '/department_list/',//Load the Department List
 	type: 'GET',
@@ -20,7 +20,7 @@ $.ajax({
 
 		//Sets behavior for when when selection is made
 		$('#departmentname').autocomplete({select:function(event, ui) {
-			
+
 			//Department Name is now filled, update css
 			$('#departmentname').removeClass('loaded');
 			$('#departmentname').addClass('filled');
@@ -44,7 +44,7 @@ $.ajax({
 					//Set css for class field to loaded
 					$('#classnumber').removeClass('unloaded');
 					$('#classnumber').addClass('loaded');
-					
+
 					//Set success behavior for the class field
 					$('#classnumber').autocomplete({select:function(event, ui) {
 						var classNum = ui.item.value; //note, still have dep_chosen
@@ -97,19 +97,29 @@ $.ajax({
 	}
 });//end of setting up class picker
 
-
-var SelectClass = function(department, classnum, instructor) {
+var SelectClass = function(department, classnum, classname, year, semester) {
 	console.log("Class Selected!");
 	console.log(department);
 	console.log(classnum);
 	console.log(instructor);
+	/*
+	$.ajax(
+		type:"POST",
+		url:"/addclass/",
+		data: {
+			"depcode":department,
+			"classnum":classnum,
+			"classname":,classname,
+			"year":year,
+			"semester":,semester,
+		},
+		async:true,
+		success function(response) {
+			console.log(response);
+		},
+		dataType:"json",
+	});
+	*/
 }//end of Select Class
 
 
-
-
-
-
-
-$(document).ready(function(){
-});

@@ -18,6 +18,8 @@ TEMPLATE_DIRS = (
     os.path.join(PROJECT_DIR, "templates/"),
 )
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -46,6 +48,7 @@ INSTALLED_APPS = (
     # 'social_auth',
     'fandjango',
     'storages',
+    'jsonrpc',
 )
 
 #Facebook Authentication via django-social-auth
@@ -54,8 +57,8 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-FACEBOOK_APP_ID     = '397547630334475'
-FACEBOOK_API_SECRET = '32c554ca2b0ec961192a1a74bf496f39'
+#FACEBOOK_APP_ID     = '397547630334475'
+#FACEBOOK_API_SECRET = '32c554ca2b0ec961192a1a74bf496f39'
 
 FACEBOOK_APPLICATION_ID = '397547630334475'
 FACEBOOK_APPLICATION_SECRET_KEY = '32c554ca2b0ec961192a1a74bf496f39'
