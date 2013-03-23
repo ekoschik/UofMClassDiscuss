@@ -228,6 +228,9 @@ var selectedDept, selectedClass;
 
 function updateComment(){
 	var comment = $("#selectedClassCommentArea").val();
+	var year = $("#selectedClassYearSelector").val();
+	var semester = $("#selectedClassSemSelector").val();
+	var difficulty = $('input:radio[name=diff]:checked').val();
 	if(comment == "")
 		alert("Please enter a comment to be saved.");
 	else {
@@ -238,6 +241,9 @@ function updateComment(){
 				"depcode":selectedDept,
 				"classnum":selectedClass,
 				"text":comment,
+				"year":year,
+				"semester":semester,
+				"difficulty":difficulty,
 			},
 			async:true,
 			success: function(data) {

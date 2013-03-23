@@ -134,12 +134,14 @@ nav {
 	text-align: center;
 	width: 115px;
 	float: left;
+	height: 30px;
 }
 
 #classViewButton {
 	float: left;
 	display: none;
 	margin-top: 0px;
+	height: 30px;
 }
 
 #selectedClass {
@@ -191,6 +193,32 @@ nav {
 	height: 100px;
 	background-color: #2465ab;
 	border-radius: 15px;
+	float: left;
+}
+
+.courseFeedback {
+	padding: 10px;
+	width: 93%;
+	margin: 10px;
+	background-color: #2465ab;
+	border-radius: 15px;
+}
+
+.commentFeedback {
+	width: 65%;
+	font-size: 20px;
+	float: left;
+	height: 100%;
+}
+
+.feedbackName {
+	text-align: center;
+	text-decoration: underline;
+}
+
+.ratingFeedback {
+	width: 30%;
+	margin-left: 10px;
 	float: left;
 }
 

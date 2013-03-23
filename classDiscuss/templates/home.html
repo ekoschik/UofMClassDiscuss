@@ -33,7 +33,7 @@
                                    class = "unloaded" onkeypress="hideBoxes()"/> <br/>
                             <div id="classBlurb" class="center" style="display: none;"></div>
                             <button id="classInputButton" type="button" class="center" style="display: none;">I took this class</button>
-                            <button id="classViewButton">View Class Feedback</button>
+                            <button id="classViewButton" onclick="viewClass()">View Class Feedback</button>
                         </div>
                     </form>
                 </div>
@@ -52,9 +52,9 @@
                             <option value="2012">2012</option>
                             <option value="2011">2011</option>
                         </select> Semester: <select id="selectedClassSemSelector">
-                            <option value="fall">Fall</option>
-                            <option value="winter">Winter</option>
-                            <option value="s">S</option>
+                            <option value="F">Fall</option>
+                            <option value="W">Winter</option>
+                            <option value="S">Spring/Summer</option>
                         </select>
                     </div>
                     <div id="selectedClassComment">
@@ -82,11 +82,6 @@
                                                                            this)">X</div> <br/>
                                 {{ comment.className }} <br/>
                                 <div class="comment">
-                                    <!-- {% ifnotequal comment.comment_text "" %}
-                                        Leave a comment
-                                    {% else %}
-                                        Comment: ...
-                                    {% endifequal %} -->
                                 </div>
                             </div>
                         </div>
@@ -98,3 +93,9 @@
 
     </body>
 </html>
+
+<!-- {% ifnotequal comment.comment_text "" %}
+                                        Leave a comment
+                                    {% else %}
+                                        Comment: ...
+                                    {% endifnotequal %} -->

@@ -26,7 +26,7 @@ def home(request):
     clist=ClassComment.objects.filter(fbid=u_fbid)
 
     c=Context({ 'fbid':u_fbid,
-                'name':request.facebook.user.first_name,
+                'name':request.facebook.user.first_name+" "+request.facebook.user.last_name,
                 'comment_list':clist})
 
     t=loader.get_template('home.html')
@@ -41,8 +41,13 @@ def class_page(request, depcode, classnum):
     graph=GraphAPI(request.facebook.user.oauth_token.token)
     friends=graph.get('me/friends')
 
+    className=ClassComment.objects.filter(department=depcode,classNum=classnum)[:1][0].className    
+
     c=Context({ 'fbid':u_fbid,
                 'name':request.facebook.user.first_name,
+                'depcode':depcode,
+                'classnum':classnum,
+                'classname':className,
                 'comment_list':clist,
                 'friends':friends})
 
@@ -69,12 +74,25 @@ def update_comment(request):
     depcode = request.POST['depcode']
     classnum = request.POST['classnum']
     text = request.POST['text']
+
+    year = request.POST['year']
+    semester = request.POST['semester']
+    difficulty = request.POST['difficulty']
     
     count = ClassComment.objects.filter(fbid=fbid, department=depcode,classNum=classnum).count()
     if count > 1:
         return HttpResponse("ERROR Multiple comments found on lookup!")
     elif count == 1:
-        cc = ClassComment.objects.filter(fbid=fbid, department=depcode,classNum=classnum).update(comment_text=text)
+        cc = ClassComment.objects.filter(
+                fbid=fbid, 
+                department=depcode,
+                classNum=classnum
+            ).update(
+                comment_text=text, 
+                year=year, 
+                semester=semester, 
+                difficulty=difficulty
+            )
     else:
         return HttpResponse("ERROR no comment found")
 
@@ -88,9 +106,11 @@ def add_class(request):
         return HttpResponse('Must Use POST')
 
     fbid = request.facebook.user.facebook_id
+    full_name = request.facebook.user.first_name + " " + request.facebook.user.last_name
     depcode = request.POST['depcode']
     classnum = request.POST['classnum']
     classname = request.POST['classname']
+
 
     count = ClassComment.objects.filter(fbid=fbid, department=depcode,classNum=classnum).count()
     if count > 1:
@@ -98,7 +118,7 @@ def add_class(request):
     elif count == 1:
         return HttpResponse("duplicate")
     else:
-        cc = ClassComment(fbid=fbid, department=depcode,classNum=classnum,className=classname)
+        cc = ClassComment(fbid=fbid, full_name=full_name, department=depcode, classNum=classnum, className=classname)
         cc.save()
         
     return HttpResponse("success")

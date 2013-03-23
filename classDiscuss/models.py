@@ -4,6 +4,7 @@ from datetime import date
 	
 class ClassComment(models.Model):
 	fbid = models.IntegerField();
+	full_name = models.CharField(max_length=150)
 	department = models.CharField(max_length=50)
 	classNum = models.IntegerField()
 	className = models.CharField(max_length=200)
