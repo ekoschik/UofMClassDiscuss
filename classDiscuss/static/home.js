@@ -143,9 +143,59 @@ var SelectClass = function(department, classNum, className) {
 }//end of Select Class
 
 function addDiv(department, classNum, classTitle){
-	var div =  "<div class=\"course\"> <div class=\"courseInfo\">" + department + " " + classNum + "<br/>" + classTitle + "</div></div>";
+	var div =  "<div class=\"course\" onclick=\"showOnLeft(" + department + ", " 
+															 + classNum + ", " 
+															 + classTitle + ", '')\">" + 
+					"<div class=\"courseInfo\">"
+					  + " <div class=\"className\">"
+							 + department + " " + classNum + "<br/></div>" + classTitle + "</div></div>";
 	$("#classesTaken").append(div);
 }
+
+<div class="course" onclick="showOnLeft('{{ comment.department }}',
+                                                                '{{ comment.classNum }}',
+                                                                '{{ comment.className }}',
+                                                                '{{ comment.comment_text }}')">
+                            <div class="courseInfo">
+                                <div class="className">
+                                    {{ comment.department }} {{ comment.classNum }} <br/>
+                                </div>
+                                <div class="dropButton" onclick="removeDiv('{{ comment.department }}',
+                                                                           '{{ comment.classNum }}',
+                                                                           this)">X</div> <br/>
+                                {{ comment.className }} <br/>
+                                <div class="comment">
+                                    {% ifequal comment.comment_text "" %}
+                                        Leave a comment
+                                    {% else %}
+                                        Comment: ...
+                                    {% endifequal %}
+                                </div>
+                            </div>
+                        </div>
+
+function removeDiv(department, classNum, box){
+	$(box).parent().parent().hide();
+	$.ajax({
+			type:"POST",
+			url:"/dropclass/",
+			data: {
+				"depcode":department,
+				"classnum":classNum,
+			},
+			async:true,
+			success: function(data) {
+				//add to the right
+				console.log(data);
+				$("#selectedClass").hide();
+			},
+			error: function(data, status, xhr){
+				alert(data);
+				alert(status);
+				alert(xhr);
+			},
+		});
+	}
 
 function showOnLeft(department, classNum, classTitle, classComments){
 	selectedDept = department;

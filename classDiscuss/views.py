@@ -27,12 +27,26 @@ def home(request):
 
     c=Context({ 'fbid':u_fbid,
                 'name':request.facebook.user.first_name,
-                'comment_list':clist })
+                'comment_list':clist})
+
+    t=loader.get_template('home.html')
+    return HttpResponse(t.render(c))
+
+
+@facebook_authorization_required
+def class_page(request, depcode, classnum):
+    u_fbid = request.facebook.user.facebook_id
+    clist=ClassComment.objects.filter(department=depcode, classNum=classnum)
 
     graph=GraphAPI(request.facebook.user.oauth_token.token)
     friends=graph.get('me/friends')
 
-    t=loader.get_template('home.html')
+    c=Context({ 'fbid':u_fbid,
+                'name':request.facebook.user.first_name,
+                'comment_list':clist,
+                'friends':friends})
+
+    t=loader.get_template('class.html')
     return HttpResponse(t.render(c))
 
 
@@ -42,15 +56,6 @@ def profile(request, fbid):
     prompt += ' looking for profile '
     prompt += str(fbid)
     return HttpResponse(prompt)
-
-
-@facebook_authorization_required
-def class_page(request, depcode, classnum):
-    prompt = 'User ' + str(request.facebook.user.facebook_id)
-    prompt += ' looking for class '
-    prompt += str(classid)
-    return HttpResponse(prompt)
-
 
 
 @facebook_authorization_required
@@ -104,7 +109,7 @@ def add_class(request):
 def drop_class(request): #user_fbid, depcode, classnum
     if request.method != 'POST':
         return 'Must Use POST'
-    fbid = request.POST['fbid']
+    fbid = request.facebook.user.facebook_id
     depcode = request.POST['depcode']
     classnum = request.POST['classnum']
 

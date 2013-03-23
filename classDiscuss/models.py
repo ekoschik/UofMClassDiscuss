@@ -7,10 +7,12 @@ class ClassComment(models.Model):
 	classNum = models.IntegerField()
 	className = models.CharField(max_length=200)
 	comment_text = models.TextField()
-	
-	#year = models.IntegerField()
-	#SEMESTER_OPTIONS = (('F','Fall'),
-	#					('W','Winter'),
-	#					('S','Spring/Summer'))
-	#semester = models.CharField(max_length=1, choices=SEMESTER_OPTIONS)
-	
+	prof = models.CharField(max_length=50)
+	year = models.IntegerField()
+	SEMESTER_OPTIONS = (('F','Fall'),
+						('W','Winter'),
+						('S','Spring/Summer'))
+	semester = models.CharField(max_length=1, choices=SEMESTER_OPTIONS)
+	difficulty = models.IntegerField()
+	workload = models.IntegerField()
+	recommended = models.BooleanField()

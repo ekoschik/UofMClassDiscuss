@@ -119,6 +119,14 @@ h1 {
 	padding: 10px;
 }
 
+.className {
+	float: left;
+}
+
+.dropButton {
+	float: right;
+}
+
 .savedComment {
 	display: none;
 }

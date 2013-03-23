@@ -56,13 +56,20 @@
                                                                 '{{ comment.className }}',
                                                                 '{{ comment.comment_text }}')">
                             <div class="courseInfo">
-                                {{ comment.department }} {{ comment.classNum }} <br/>
+                                <div class="className">
+                                    {{ comment.department }} {{ comment.classNum }} <br/>
+                                </div>
+                                <div class="dropButton" onclick="removeDiv('{{ comment.department }}',
+                                                                           '{{ comment.classNum }}',
+                                                                           this)">X</div> <br/>
                                 {{ comment.className }} <br/>
-                                {% ifequal comment.comment_text "" %}
-                                    Leave a comment
-                                {% else %}
-                                    Comment: ...
-                                {% endifequal %}
+                                <div class="comment">
+                                    {% ifequal comment.comment_text "" %}
+                                        Leave a comment
+                                    {% else %}
+                                        Comment: ...
+                                    {% endifequal %}
+                                </div>
                             </div>
                         </div>
                     {% endfor %}
